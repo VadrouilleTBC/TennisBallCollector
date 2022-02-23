@@ -79,7 +79,7 @@ class Control(Node):
         th_robot = self.th_true
         px = np.array([[self.true_p.x],[self.true_p.y]])
 
-        current_ball  = self.true_balls[self.num_ball]
+        current_ball  = self.true_balls[0]
         
         if self.flag_zone == 0 :
             self.phat = np.array([[current_ball.x],[current_ball.y]])
@@ -110,7 +110,7 @@ class Control(Node):
             w = px-self.phat
             w_norm = np.linalg.norm(w)
 
-        if w_norm < 1.0 and self.flag_zone == 3:
+        if w_norm < 1.0 and self.flag_zone == 4:
             self.flag_zone = 0 
             self.memo_num_ball += 1
         
@@ -137,7 +137,10 @@ class Control(Node):
                 u1 = 0.0
                 u2 = 0.0
             else : 
+                self.flag_zone = 4
                 self.memo_nb_balls = self.nb_balls
+
+        if self.flag_zone == 4 :
                 u1 = -0.5
                 u2 = 0.0
 
